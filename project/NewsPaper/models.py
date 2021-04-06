@@ -36,7 +36,7 @@ class Post(models.Model):
     category = models.ManyToManyField(Category, through='PostCategory')
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     post_type = models.CharField(max_length=10,
-                                 choices=[('AR', 'Article'), ('NE', 'News')], default='AR')  # ! насколько это правильное решение? Или лучше реализовывать через кортежи?
+                                 choices=[('AR', 'Article'), ('NE', 'News')], default='AR')  # ! насколько это корректное решение? Или лучше реализовывать через отдельную переменную?
     datetime = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=256)
     text = models.TextField(blank=True)
