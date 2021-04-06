@@ -13,6 +13,10 @@ class Author(models.Model):
         verbose_name = 'Автор'
         verbose_name_plural = 'Авторы'
 
+    # def update_rating(self):
+    #     self.comm_rating += 1
+    #     return self.comm_rating
+
     def __str__(self):
         return self.name
 
@@ -41,6 +45,9 @@ class Post(models.Model):
     class Meta:
         verbose_name = 'Пост'
         verbose_name_plural = 'Посты'
+
+    def preview(self):
+        return self.text[:124] + '...'
 
     def like(self):
         self.comm_rating += 1
