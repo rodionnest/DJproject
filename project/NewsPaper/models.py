@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 
 class Author(models.Model):
-    username = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     user_rating = models.IntegerField(default=0)
 
     class Meta:
@@ -16,9 +16,11 @@ class Author(models.Model):
     # def update_rating(self):
     #     self.comm_rating += 1
     #     return self.comm_rating
+    # !p = Author.objects.all().values('user_rating')
+    # !print(sum([i['user_rating'] for i in p]))
 
     def __str__(self):
-        return self.name
+        return self.user.username
 
 
 class Category(models.Model):
