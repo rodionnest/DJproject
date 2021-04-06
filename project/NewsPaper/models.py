@@ -33,11 +33,11 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    category = models.ManyToManyField(Category, through=PostCategory)
+    category = models.ManyToManyField(Category, through='PostCategory')
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     post_type = models.CharField(max_length=10,
-                                 choices=['article', 'news'], default='article')  # ! насколько это правильное решение? Или лучше реализовывать через кортежи?
-    datetime = models.DateTimeField(auto_now_add)
+                                 choices=[('AR', 'Article'), ('NE', 'News')], default='AR')  # ! насколько это правильное решение? Или лучше реализовывать через кортежи?
+    datetime = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=256)
     text = models.TextField(blank=True)
     rating = models.IntegerField(default=0)
@@ -71,9 +71,9 @@ class PostCategory(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    username = models.OneToMany(User, on_delete=models.CASCADE)
+    username = models.ForeignKey(User, on_delete=models.CASCADE)
     comment_text = models.TextField()
-    post_datetime = models.DateTimeField(auto_now_add)
+    post_datetime = models.DateTimeField(auto_now_add=True)
     comm_rating = models.IntegerField(default=0)
 
     class Meta:
