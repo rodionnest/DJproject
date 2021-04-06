@@ -42,6 +42,14 @@ class Post(models.Model):
         verbose_name = 'Пост'
         verbose_name_plural = 'Посты'
 
+    def like(self):
+        self.comm_rating += 1
+        return self.comm_rating
+
+    def dislike(self):
+        self.comm_rating += -1
+        return self.comm_rating
+
     def __str__(self):
         return self.name
 
@@ -64,6 +72,14 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
+
+    def like(self):
+        self.comm_rating += 1
+        return self.comm_rating
+
+    def dislike(self):
+        self.comm_rating += -1
+        return self.comm_rating
 
     def __str__(self):
         return self.name
