@@ -13,15 +13,19 @@ class Author(models.Model):
         verbose_name = 'Автор'
         verbose_name_plural = 'Авторы'
 
-    def update_rating(self, username):
+    def update_rating(self, _username):
         # получаем рейтинги всех статей
-        QS_AR_rate = [i['rating'] for i in Post.objects.filter(
-            author_id__user_id__username=username, post_type='AR').values('rating')]
-        # получаем рейтинги всех комментариев
-        QS_Comm_rate = [i['rating'] for i in Post.objects.filter(
-            author_id__user_id__username=username, post_type='AR').values('rating')]
+        # QS_AR_rate = [i['rating'] for i in Post.objects.filter(
+        #     author_id__user_id__username=_username, post_type='AR').values('rating')]
+        # # получаем рейтинги всех комментариев автора
+        user_id = User.objects.get(username=_username)
+        QS_author_comm_rate = [i['comm_rating'] for i in Comment.objects.filter(
+            user_id=user_id.id).values('comm_rating')]
 
-        return sum(QS_AR_rate)*3
+        # QS_author_comm_rate = [i['comm_rating'] for i in Comment.objects.filter(
+        #     user_id=user_id.id).values('comm_rating')]
+
+        return QS_author_comm_rate
 
     def product_sum(self):
         a = self.author_rating
@@ -96,4 +100,4 @@ class Comment(models.Model):
         return self.comm_rating
 
     def __str__(self):
-        return self.user.username
+        return 'Пост: ' + self.post.title + ', Пользователь: ' + self.user.username
