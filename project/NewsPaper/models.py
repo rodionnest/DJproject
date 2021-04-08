@@ -8,24 +8,31 @@ from django.contrib.auth.models import User
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     author_rating = models.IntegerField(default=0)
+    # _amount = models.IntegerField(default = 1, db_column = 'amount')
 
     class Meta:
         verbose_name = 'Автор'
         verbose_name_plural = 'Авторы'
 
     def update_rating(self, _username):
-        # получаем рейтинги всех статей
-        # QS_AR_rate = [i['rating'] for i in Post.objects.filter(
-        #     author_id__user_id__username=_username, post_type='AR').values('rating')]
-        # # получаем рейтинги всех комментариев автора
-        user_id = User.objects.get(username=_username)
+        _user_id = User.objects.get(username=_username)
+
+        #  получаем рейтинги всех статей
+        QS_AR_rate = [i['rating'] for i in Post.objects.filter(
+            author_id__user_id__username=_username, post_type='AR').values('rating')]
+
+        #  получаем рейтинги всех комментариев автора
         QS_author_comm_rate = [i['comm_rating'] for i in Comment.objects.filter(
-            user_id=user_id.id).values('comm_rating')]
+            user_id=_user_id.id).values('comm_rating')]
 
-        # QS_author_comm_rate = [i['comm_rating'] for i in Comment.objects.filter(
-        #     user_id=user_id.id).values('comm_rating')]
+        # получаем рейтинги всех комментариев к статьям автора
+        QS_all_comm_rate = [i['comm_rating'] for i in Comment.objects.filter(
+            post_id__author_id__user_id=_user_id.id, post_id__post_type='AR').values('comm_rating')]
 
-        return QS_author_comm_rate
+        Total_author_rating = sum(QS_AR_rate)*3 + \
+            sum(QS_author_comm_rate) + sum(QS_all_comm_rate)
+
+        return Total_author_rating
 
     def product_sum(self):
         a = self.author_rating
@@ -64,11 +71,9 @@ class Post(models.Model):
         return self.text[:124] + '...'
 
     def like(self):
-        self.comm_rating += 1
         return self.comm_rating
 
     def dislike(self):
-        self.comm_rating += -1
         return self.comm_rating
 
     def __str__(self):
