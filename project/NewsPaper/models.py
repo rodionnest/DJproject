@@ -7,17 +7,25 @@ from django.contrib.auth.models import User
 
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    user_rating = models.IntegerField(default=0)
+    author_rating = models.IntegerField(default=0)
 
     class Meta:
         verbose_name = 'Автор'
         verbose_name_plural = 'Авторы'
 
-    # def update_rating(self):
-    #     self.comm_rating += 1
-    #     return self.comm_rating
-    # !p = Author.objects.all().values('user_rating')
-    # !print(sum([i['user_rating'] for i in p]))
+    def update_rating(self, username):
+        # получаем рейтинги всех статей
+        QS_AR_rate = [i['rating'] for i in Post.objects.filter(
+            author_id__user_id__username=username, post_type='AR').values('rating')]
+        # получаем рейтинги всех комментариев
+        QS_Comm_rate = [i['rating'] for i in Post.objects.filter(
+            author_id__user_id__username=username, post_type='AR').values('rating')]
+
+        return sum(QS_AR_rate)*3
+
+    def product_sum(self):
+        a = self.author_rating
+        return a
 
     def __str__(self):
         return self.user.username
@@ -60,7 +68,7 @@ class Post(models.Model):
         return self.comm_rating
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 class PostCategory(models.Model):
