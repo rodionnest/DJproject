@@ -37,7 +37,7 @@ class Author(models.Model):
         QS_all_comm_rate = [i['comm_rating'] for i in Comment.objects.filter(
             post_id__author_id__user_id=_user_id.id, post_id__post_type='AR').values('comm_rating')]
 
-        Total_author_rating = sum(QS_AR_rate)*3 + \
+        self.author_rating = Total_author_rating = sum(QS_AR_rate)*3 + \
             sum(QS_author_comm_rate) + sum(QS_all_comm_rate)
 
         return Total_author_rating
