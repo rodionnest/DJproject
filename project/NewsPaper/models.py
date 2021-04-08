@@ -6,9 +6,17 @@ from django.contrib.auth.models import User
 
 
 class Author(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    author_rating = models.IntegerField(default=0)
-    # _amount = models.IntegerField(default = 1, db_column = 'amount')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    _author_rating = models.IntegerField(default=0, db_column='author_rating')
+
+    @property
+    def author_rating(self):
+        return self._amount
+
+    @author_rating.setter
+    def author_rating(self, value):
+        self._author_rating = value
+        self.save()
 
     class Meta:
         verbose_name = 'Автор'
@@ -33,10 +41,6 @@ class Author(models.Model):
             sum(QS_author_comm_rate) + sum(QS_all_comm_rate)
 
         return Total_author_rating
-
-    def product_sum(self):
-        a = self.author_rating
-        return a
 
     def __str__(self):
         return self.user.username
