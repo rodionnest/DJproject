@@ -75,13 +75,10 @@ class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.name
-
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    username = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment_text = models.TextField()
     post_datetime = models.DateTimeField(auto_now_add=True)
     comm_rating = models.IntegerField(default=0)
@@ -99,4 +96,4 @@ class Comment(models.Model):
         return self.comm_rating
 
     def __str__(self):
-        return self.name
+        return self.user.username
