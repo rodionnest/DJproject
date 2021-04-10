@@ -1,0 +1,10 @@
+user1 = User.objects.create_user('Михаил')
+user2 = User.objects.create_user('Андрей')
+Author.objects.create(user=user1)
+Author.objects.create(user=user2)
+Category.objects.create(name='IT')
+Category.objects.create(name='Наука')
+Category.objects.create(name='Спорт')
+Category.objects.create(name='В мире')
+Post.objects.create(author=Author.objects.get(user=User.objects.get(username='Михаил')), category=Category.objects.get(name='Наука'), post_type='NE', title='Обезьяне вживили чип', text='Группа исследователей вживила чип обезьяне и научила ее играть в игры с помощью силы мысли')
+
