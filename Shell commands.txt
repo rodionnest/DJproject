@@ -2,9 +2,64 @@ user1 = User.objects.create_user('Михаил')
 user2 = User.objects.create_user('Андрей')
 Author.objects.create(user=user1)
 Author.objects.create(user=user2)
+
 Category.objects.create(name='IT')
 Category.objects.create(name='Наука')
 Category.objects.create(name='Спорт')
 Category.objects.create(name='В мире')
-Post.objects.create(author=Author.objects.get(user=User.objects.get(username='Михаил')), category=Category.objects.get(name='Наука'), post_type='NE', title='Обезьяне вживили чип', text='Группа исследователей вживила чип обезьяне и научила ее играть в игры с помощью силы мысли')
 
+c1 = Category.objects.get(name = 'IT') 
+c2 = Category.objects.get(name = 'Наука')
+c3 = Category.objects.get(name = 'Спорт') 
+c4 = Category.objects.get(name = 'В мире') 
+
+Post.objects.create(author=Author.objects.get(user=User.objects.get(username='Михаил')), post_type='NE', title='Обезьяне вживили чип', text='Группа исследователей вживила чип обезьяне и научила ее играть в игры с помощью силы мысли')
+
+Post.objects.create(author=Author.objects.get(user=User.objects.get(username='Михаил')), post_type='AR', title='Как вшить обезьяне в мозг чип и заставить вариать кофе по утрам - лайфхак', text='Лайфхак прост - обратитесь к Илону Маску, он вроде в курсе')
+
+Post.objects.create(author=Author.objects.get(user=User.objects.get(username='Михаил')), post_type='AR', title='Как починить кофеварку', text='Частая проблема - сломанная обезьяной кофеварка, узнайте, как починить в следующей статье без регистрации и смс...')
+
+Post.objects.create(author=Author.objects.get(user=User.objects.get(username='Андрей')), post_type='AR', title='Устанавливаем Django', text='pip install django')
+
+Post.objects.all().values('id','title')
+
+p1 = Post.objects.get(id=7)
+p2 = Post.objects.get(id=8)
+p3 = Post.objects.get(id=9)
+
+p1.category.add(c2,c4)
+p2.category.add(c2)
+p3.category.add(c1)
+
+Comment.objects.create(user=User.objects.get(username='Михаил'), post=Post.objects.get(pk=7), comment_text='Такие дела')
+Comment.objects.create(user=User.objects.get(username='Андрей'), post=Post.objects.get(pk=8), comment_text='О, надо попробовать')
+Comment.objects.create(user=User.objects.get(username='Андрей'), post=Post.objects.get(pk=9), comment_text='Как починить обезьяну?')
+Comment.objects.create(user=User.objects.get(username='Михаил'), post=Post.objects.get(pk=10), comment_text='О, самый короткий и понятный мануал по джанго, спс бро')
+
+Post.objects.get(pk=7).like()
+Post.objects.get(pk=7).like()
+Post.objects.get(pk=7).like()
+Post.objects.get(pk=8).dislike()
+Post.objects.get(pk=8).dislike()
+Post.objects.get(pk=9).like()
+Post.objects.get(pk=9).like()
+Post.objects.get(pk=9).like()
+Post.objects.get(pk=9).like()
+Post.objects.get(pk=9).like()
+
+Comment.objects.get(pk=6).like()
+Comment.objects.get(pk=6).like()
+Comment.objects.get(pk=7).dislike()
+Comment.objects.get(pk=8).like()
+Comment.objects.get(pk=8).like()
+
+Author.objects.get(user=User.objects.get(username='Михаил')).update_rating()
+Author.objects.get(user=User.objects.get(username='Андрей')).update_rating()
+
+Author.objects.all().order_by('-author_rating').values('user', 'author_rating')[0]
+
+Post.objects.all().order_by('-rating').values('datetime', 'author_id__user__username', 'rating', 'title')[0]
+
+best_article = Post.objects.get(pk=Post.objects.all().order_by('-rating').values('id')[0]['id'])
+best_article.preview()
+best_article.comment_set.all().values('post_datetime', 'user_id__username', 'comm_rating', 'comment_text')

@@ -66,14 +66,14 @@ class Post(models.Model):
         return self.text[:124] + '...'
 
     def like(self):
-        self.comm_rating += 1
+        self.rating += 1
         self.save()
-        return self.comm_rating
+        return self.rating
 
     def dislike(self):
-        self.comm_rating += 1
+        self.rating -= 1
         self.save()
-        return self.comm_rating
+        return self.rating
 
     def __str__(self):
         return self.title + ', Автор: ' + self.author.user.username
@@ -101,7 +101,7 @@ class Comment(models.Model):
         return self.comm_rating
 
     def dislike(self):
-        self.comm_rating += -1
+        self.comm_rating -= 1
         self.save()
         return self.comm_rating
 
