@@ -1,5 +1,7 @@
 {% extends 'flatpages/default.html' %}
 
+{% load custom_filters %}
+
 {% block title %}Новости{% endblock title %}
 
 {% block content %}
@@ -18,9 +20,9 @@
     </tr>
     {% for new in news %}
     <tr>
-        <td>{{ new.title }}</td>
-        <td class='text-center'>{{ new.datetime|date:'d.m.y' }}</td>
-        <td>{{ new.text|truncatewords:20 }}</td>
+        <td>{{ new.title|censor }}</td>
+        <td class='text-center'>{{ new.datetime|date:'d.m.y h:m' }}</td>
+        <td>{{ new.text|truncatewords:20|censor }}</td>
         <td><a href="/news/{{ new.pk }}">Перейти</a></td>
     </tr>
     {% endfor %}

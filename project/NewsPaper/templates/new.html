@@ -1,12 +1,14 @@
 {% extends 'flatpages/default.html' %}
 
+{% load custom_filters %}
+
 {% block title %}{{ new.title }}{% endblock title %}
 
 
 {% block content %}
 
-<h4>{{ new.title }}</h4>
-<p>Дата публикации {{ new.datetime|date:'d.m.y' }}. Автор: {{ new.author }}.</p>
+<h4>{{ new.title|censor }}</h4>
+<p>Дата публикации {{ new.datetime|date:'d.m.y h:m' }}. Автор: {{ new.author }}.</p>
 <hr>
-{{ new.text }}
+{{ new.text|censor }}
 {% endblock content %}
