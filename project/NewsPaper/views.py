@@ -3,13 +3,13 @@ from django.views.generic import ListView, DetailView
 from .models import Post
 
 
-class PostList(ListView):
+class NewsList(ListView):
     model = Post
-    template_name = 'posts.html'
-    context_object_name = 'posts'
+    template_name = 'news.html'
+    context_object_name = 'news'
 
 
-class PostDetail(DetailView):
+class NewDetail(DetailView):
     model = Post
-    template_name = 'post.html'
-    context_object_name = 'post'
+    template_name = 'new.html'
+    context_object_name = 'new'
