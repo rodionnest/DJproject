@@ -8,6 +8,8 @@ class NewsList(ListView):
     template_name = 'news.html'
     context_object_name = 'news'
     queryset = Post.objects.order_by('-datetime')
+    # ordering = ['-price']
+    paginate_by = 1
 
 
 class NewDetail(DetailView):
