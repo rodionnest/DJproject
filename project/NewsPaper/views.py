@@ -9,7 +9,7 @@ class NewsList(ListView):
     context_object_name = 'news'
     queryset = Post.objects.order_by('-datetime')
     # ordering = ['-price']
-    paginate_by = 1
+    paginate_by = 2
 
 
 class NewDetail(DetailView):
