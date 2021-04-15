@@ -11,6 +11,11 @@ class NewsList(ListView):
     # ordering = ['-price']
     paginate_by = 2
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['post_count'] = len(Post.objects.all())
+        return context
+
 
 class NewDetail(DetailView):
     model = Post
