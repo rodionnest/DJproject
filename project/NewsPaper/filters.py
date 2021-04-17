@@ -1,12 +1,17 @@
-from django_filters import FilterSet # импортируем filterset, чем-то напоминающий знакомые дженерики
+from django_filters import FilterSet
 from .models import Post
+from django.forms import DateInput
 
+import django_filters
 
 class PostFilter(FilterSet):
 
-    class Meta:
-        model = Post
-        fields = {
-            'datetime': ['gt'], # количество товаров должно быть больше или равно тому, что указал пользователь
-            'text': ['icontains'], # цена должна быть меньше или равна тому, что указал пользователь
-        }
+    datetime = django_filters.DateFilter(field_name='datetime', widget=DateInput(attrs={'type': 'date'}),  lookup_expr='gt', label='Позже даты')
+    title = django_filters.CharFilter(field_name='title', lookup_expr='icontains', label='Заголовок')
+    author_name = django_filters.CharFilter(field_name='author_id__user_id__username', lookup_expr='icontains', label='Автор')
+
+    # class Meta:
+    #     model = Post
+    #     fields = {
+    #         'author_id__user_id__username': ['icontains'],
+    #     }
