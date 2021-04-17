@@ -2,14 +2,21 @@
 
 {% load custom_filters %}
 
-{% block title %}Новости{% endblock title %}
+{% block title %}Поиск по публикациям{% endblock title %}
 
 {% block content %}
 
-<h1>Все публикации</h1>
-<p>Всего: {{ post_count }}</p>
+<h1>Поиск по публикациям</h1>
 
-{% if news %}
+<form method="GET">
+    {{ filter.form }} <!-- Форму от фильтров за нас сделает django. А вот кнопку, увы придётся делать самому -->
+    <input type="submit" value="Найти">
+</form>
+<br>
+
+<p>Всего найдено: {{ filter.qs|length }}</p>
+
+{% if filter.qs %}
 
 <table class='table'>
     <tr>
@@ -18,7 +25,7 @@
         <td><span class='font-weight-bold'>Текст</td>
         <td><span class='font-weight-bold'></td>
     </tr>
-    {% for new in news %}
+    {% for new in filter.qs %}
     <tr>
         <td>{{ new.title|censor }}</td>
         <td class='text-center'>{{ new.datetime|date:'d.m.y h:m' }}</td>
@@ -28,7 +35,7 @@
     {% endfor %}
 </table>
 
-{% if is_paginated %}
+{% comment %} {% if is_paginated %}
         <div class="d-flex justify-content-center">
             <nav>
                 <ul class="pagination">
@@ -62,10 +69,10 @@
                 </ul>
             </nav>
         </div>
-{% endif %}
+{% endif %} {% endcomment %}
 
 {% else %}
-<h2>Постов нет!</h2>
+<h4>Публикаций не найдено</h4>
 {% endif %}
 
 {% endblock content %}

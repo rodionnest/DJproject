@@ -22,5 +22,5 @@ urlpatterns = [
     path('', RedirectView.as_view(url='/news')),
     path('admin/', admin.site.urls),
     path('news/', include('NewsPaper.urls')),
-
+    path('news/search', include('NewsPaper.urls')),
 ]
