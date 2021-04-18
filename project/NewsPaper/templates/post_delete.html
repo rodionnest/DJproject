@@ -2,10 +2,10 @@
 
 {% load custom_filters %}
 
-{% block title %} Удалить публикацию {% endblock title %}
+{% block title %} Удаление публикации {% endblock title %}
 
 {% block content %}
-<h3>Удалить публикацию</h3>
+<h3>Удалить публикацию?</h3>
 
 <table class='table'>
     <tr>
@@ -24,7 +24,7 @@
 
 <form method="POST">
     {% csrf_token %}
-    <input type="submit" value="Подтвердить">
+    <input type="submit" class="btn btn-danger" value="Удалить">
 </form>
 
 {% endblock content %}

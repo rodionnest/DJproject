@@ -7,8 +7,8 @@
 
 {% block content %}
 
-<a href="{% url 'post_update' post.id %}" class='text-decoration-none'><button class="btn btn-dark" type="button">Редактировать</button></a>
-<a href="{% url 'post_delete' post.id %}" class='text-decoration-none'><button class="btn btn-warning" type="button">Удалить</button></a>
+<a href="{{ 'edit' }}" class='text-decoration-none'><button class="btn btn-dark" type="button">Редактировать</button></a>
+<a href="{{ 'delete' }}" class='text-decoration-none'><button class="btn btn-warning" type="button">Удалить</button></a>
 <br>
 <br>
 
