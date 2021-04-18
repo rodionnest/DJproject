@@ -30,10 +30,18 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="search">Поиск</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/news">Все статьи</a>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Публикации
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <a href="/news/add" class='text-decoration-none'><button class="dropdown-item" type="button">Добавить публикацию</button></a>
+                                <a href="/news" class='text-decoration-none'><button class="dropdown-item" type="button">Последние статьи</button></a>
+                                <div class="dropdown-divider"></div>
+                                <a href="search" class='text-decoration-none'><button class="dropdown-item" type="button">Поиск</button></a>
+                            </div>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/about">О сайте</a>

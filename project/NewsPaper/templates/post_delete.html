@@ -1,0 +1,30 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %} Удалить публикацию {% endblock title %}
+
+{% block content %}
+<h3>Удалить публикацию</h3>
+
+<table class='table'>
+    <tr>
+        <td><span class='font-weight-bold'>Заголовок</span></td>
+        <td align=center><span class='font-weight-bold text-nowrap'>Дата публикации</td>
+        <td><span class='font-weight-bold'>Текст</td>
+    </tr>
+    <tr>
+        <td>{{ post.title|censor }}</td>
+        <td class='text-center'>{{ post.datetime|date:'d.m.y h:m' }}</td>
+        <td>{{ post.text|truncatewords:20|censor }}</td>
+    </tr>
+</table>
+
+
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Подтвердить">
+</form>
+
+{% endblock content %}

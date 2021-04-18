@@ -1,5 +1,5 @@
 # from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, UpdateView, CreateView, DetailView, DeleteView
 from .models import Post
 from .filters import PostFilter
 from .forms import PostForm
@@ -10,7 +10,7 @@ class NewsList(ListView):
     context_object_name = 'news'
     queryset = Post.objects.order_by('-datetime')
     # ordering = ['-price']
-    paginate_by = 3
+    paginate_by = 10
     form_class = PostForm
 
     def get_context_data(self, **kwargs):
@@ -50,3 +50,26 @@ class NewDetail(DetailView):
     model = Post
     template_name = 'new.html'
     context_object_name = 'new'
+
+class PostDetail(DetailView):
+    template_name = 'post_detail.html'
+    queryset = Post.objects.all()
+
+
+class PostCreateView(CreateView):
+    template_name = 'post_add.html'
+    form_class = PostForm
+
+
+class PostUpdateView(UpdateView):
+    template_name = 'post_add.html'
+    form_class = PostForm
+
+    def get_object(self, **kwargs):
+        id = self.kwargs.get('pk')
+        return Post.objects.get(pk=id)
+
+class PostDeleteView(DeleteView):
+    template_name = 'post_delete.html'
+    queryset = Post.objects.all()
+    success_url = '/news/'

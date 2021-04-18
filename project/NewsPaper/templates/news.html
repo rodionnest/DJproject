@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<h1>Все публикации</h1>
+<h1>Последние публикации</h1>
 <p>Всего: {{ post_count }}</p>
 
 {% if news %}
@@ -67,11 +67,5 @@
 {% else %}
 <h2>Постов нет!</h2>
 {% endif %}
-
-<form method="POST">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Добавить публикацию">
-</form>
 
 {% endblock content %}
