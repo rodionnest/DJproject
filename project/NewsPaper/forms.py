@@ -4,8 +4,8 @@ from django import forms
 
 
 class PostForm(ModelForm):
-    text = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control mb-2'}))
+    text = forms.CharField(label='', widget=forms.Textarea(attrs={'class': 'form-control mb-2'}))
 
     class Meta:
         model = Post
-        fields = ['post_type', 'title', 'author']
+        fields = ['post_type', 'title', 'author', 'text']
