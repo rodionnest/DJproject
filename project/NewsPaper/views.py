@@ -46,7 +46,7 @@ class SearchNews(ListView):
         post_list = Post.objects.all()  #  получаем все публикации
         post_filter = PostFilter(request.GET, queryset=post_list)  #  создаем объект фильтра
         post_list = post_filter.qs  #  создаем переменную с QuerySet фильтра
-        paginator = Paginator(post_list, 10) # создаём объект класса пагинатор, передаём ему список наших товаров и их количество для одной страницы
+        paginator = Paginator(post_list, 5) # создаём объект класса пагинатор, передаём ему список наших товаров и их количество для одной страницы
         page = request.GET.get('page', 1)  # берём номер страницы из get-запроса. Если ничего не передали, будем показывать первую страницу.
 
         try:
@@ -55,7 +55,8 @@ class SearchNews(ListView):
             posts = paginator.page(1)
         except EmptyPage:
             posts = paginator.page(paginator.num_pages)
-            args = {'paginator': paginator, 'filter': post_filter, 'posts': posts}
+
+        args = {'paginator': paginator, 'filter': post_filter, 'posts': posts}
 
         return render(request, 'search.html', args)
 
