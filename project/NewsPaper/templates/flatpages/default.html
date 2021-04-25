@@ -50,10 +50,15 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/profile">Профиль</a>
                         </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">Войти</a>
+                        </li>
                     {% endif %}
-                    <li class="nav-item">
+
+                    {% comment %} <li class="nav-item">
                         <a class="nav-link" href="/admin">Админ-панель</a>
-                    </li>
+                    </li> {% endcomment %}
                 </ul>
             </div>
         </div>
