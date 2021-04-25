@@ -1,8 +1,13 @@
 # from django.shortcuts import render
 from django.views.generic import ListView, UpdateView, CreateView, DetailView, DeleteView
+
 from .models import Post
 from .filters import PostFilter
-from .forms import PostForm
+from .forms import PostForm, UserForm
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+
 
 class NewsList(ListView):
     model = Post
@@ -68,6 +73,14 @@ class PostUpdateView(UpdateView):
     def get_object(self, **kwargs):
         id = self.kwargs.get('pk')
         return Post.objects.get(pk=id)
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = 'profile.html'
+    form_class = UserForm
+
+    def get_object(self, **kwargs):
+        id = self.request.user.id
+        return User.objects.get(pk=id)
 
 class PostDeleteView(DeleteView):
     template_name = 'post_delete.html'

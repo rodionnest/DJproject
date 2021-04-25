@@ -46,6 +46,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/about">О сайте</a>
                     </li>
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profile">Профиль</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="/admin">Админ-панель</a>
                     </li>
