@@ -1,6 +1,11 @@
-# from django.shortcuts import render
+from django.shortcuts import render
 from django.views.generic import ListView, UpdateView, CreateView, DetailView, DeleteView
 
+<<<<<<< HEAD
+=======
+from django.views import View
+
+>>>>>>> b1e608a92ee10993c3091e2d8c25ef26d715893c
 from .models import Post
 from .filters import PostFilter
 from .forms import PostForm, UserForm
@@ -8,6 +13,8 @@ from .forms import PostForm, UserForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 
+
+from django.core.paginator import Paginator
 
 class NewsList(ListView):
     model = Post
@@ -39,7 +46,26 @@ class SearchNews(ListView):
     template_name = 'search.html'
     context_object_name = 'search'
     queryset = Post.objects.order_by('-datetime')
+
     # paginate_by = 1
+
+    def get(self, request):
+        post_list = Post.objects.all()  #  получаем все публикации
+        post_filter = PostFilter(request.GET, queryset=post_list)  #  создаем объект фильтра
+        post_list = post_filter.qs  #  создаем переменную с QuerySet фильтра
+        paginator = Paginator(post_list, 5) # создаём объект класса пагинатор, передаём ему список наших товаров и их количество для одной страницы
+        page = request.GET.get('page', 1)  # берём номер страницы из get-запроса. Если ничего не передали, будем показывать первую страницу.
+
+        try:
+            posts = paginator.page(page)
+        except PageNotAnInteger:
+            posts = paginator.page(1)
+        except EmptyPage:
+            posts = paginator.page(paginator.num_pages)
+
+        args = {'paginator': paginator, 'filter': post_filter, 'posts': posts}
+
+        return render(request, 'search.html', args)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
