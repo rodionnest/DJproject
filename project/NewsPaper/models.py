@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models import Sum
 
 
+
+
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     author_rating = models.IntegerField(default=0)
@@ -78,7 +80,8 @@ class Post(models.Model):
     def __str__(self):
         return self.title + ', Автор: ' + self.author.user.username
 
-    def get_absolute_url(self): # добавим абсолютный путь чтобы после создания нас перебрасывало на страницу с товаром
+    # добавим абсолютный путь чтобы после создания нас перебрасывало на страницу с товаром
+    def get_absolute_url(self):
         return f'/news/{self.id}'
 
 
