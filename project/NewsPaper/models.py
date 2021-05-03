@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 from django.db.models import Sum
 
 
-
-
 class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     author_rating = models.IntegerField(default=0)
@@ -28,7 +26,7 @@ class Author(models.Model):
             post_id__author_id=self.id).aggregate(_car=Sum('comm_rating'))
         comm_all_rate = comm_all_rate.get('_car')
 
-        self.author_rating = post_rate*3 + comm_author_rate + comm_all_rate
+        self.author_rating = post_rate * 3 + comm_author_rate + comm_all_rate
         self.save()
 
         return self.author_rating

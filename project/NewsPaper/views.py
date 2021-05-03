@@ -7,7 +7,7 @@ from .models import Post
 from .filters import PostFilter
 from .forms import PostForm, UserForm
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
@@ -96,12 +96,14 @@ class PostDetail(DetailView):
     queryset = Post.objects.all()
 
 
-class PostCreateView(CreateView):
+class PostCreateView(PermissionRequiredMixin, CreateView):
+    permission_required = ('NewsPaper.add_post')
     template_name = 'post_add.html'
     form_class = PostForm
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = ('NewsPaper.edit_post')
     template_name = 'post_add.html'
     form_class = PostForm
 
